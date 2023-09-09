@@ -12,7 +12,7 @@ function Home() {
       let arr = [];
       arr.push(...data, {
         todo: input,
-        todono: arr.length + 1,
+        todono: data.length + 1,
       });
       setData(arr);
       console.log(arr);
