@@ -4,6 +4,7 @@ import "./App.css";
 function Home() {
   const [input, setInput] = useState("");
   const [data, setData] = useState([]);
+  const [alertStatus,setAlertStatus]=useState("empty");
   const [updateTodono, setUpdateTodono] = useState({ value: -1 });
   const [status, setStatus] = useState(true);
   useEffect(() => {
@@ -24,19 +25,29 @@ function Home() {
         console.log(data);
         setStatus(true);
         setInput("");
+        setAlertStatus("update");
       } else {
         console.log(status);
-        setData([
-          ...data,
-          {
-            todo: input,
-            todono: data.length + 1,
-            update: `<span>&#9998;</span>`,
-            status: `<input type='checkbox' class='check'>`,
-            delete: `<span>&#10060;</span>`,
-          },
-        ]);
-        setInput("");
+        if(input.trim().length>0){
+          setData([
+            ...data,
+            {
+              todo: input,
+              todono: data.length + 1,
+              update: `<span>&#9998;</span>`,
+              status: `<input type='checkbox' class='check'>`,
+              delete: `<span>&#10060;</span>`,
+            },
+          ]);
+          setInput("");
+          setAlertStatus("added");
+        }
+        else if(input.trim().length==0 && input.length>0){
+           setAlertStatus("extrablank")
+        }
+        else{
+          setAlertStatus("blanknote")
+        }
       }
     }
   };
@@ -53,6 +64,7 @@ function Home() {
     })
     console.log(data);
     setData([...data]);
+    setAlertStatus("delete");
   }
   return (
     <>
@@ -89,7 +101,7 @@ function Home() {
                 value={input}
                 cols="30"
                 rows="2"
-                placeholder="Note Here..."
+                placeholder="Update Note Here..."
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => {
                   handleKeyInput(e, updateTodono.value);
@@ -103,6 +115,21 @@ function Home() {
         <div id="notesection">
           <div id="alerthead">
             <h1 id="notesectionh1">My Notes</h1>
+            {alertStatus=="added" &&
+            <h3 id="todoalert" style={{color:'green'}}>Note is Added Successfully</h3>
+            }
+            {alertStatus=="update" &&
+            <h3 id="todoalert" style={{color:'green'}}>Note is Updated Successfully</h3>
+            }
+            {alertStatus=="delete" &&
+            <h3 id="todoalert" style={{color:'red'}}>Note is Deleted Successfully</h3>
+            }
+            {alertStatus=="blanknote" &&
+            <h3 id="todoalert" style={{color:'orange'}}>Required to Add Text Note</h3>
+            }
+            {alertStatus=="extrablank" &&
+            <h3 id="todoalert" style={{color:'orange'}}>Blank Note is Not Allowed</h3>
+            }
           </div>
           <table className="tableclass">
             <tr className="trclass">
@@ -140,6 +167,14 @@ function Home() {
           </table>
         </div>
       )}
+      {data.length==0 && 
+              <div id="notesection">
+              <div id="alerthead">
+                <h1 id="notesectionh1">My Notes</h1>
+                <h3 id="todoalert" style={{color:'red'}}>Note Book is Empty</h3>
+              </div>
+              </div>
+      }
     </>
   );
 }
