@@ -20,8 +20,7 @@ The application displays a list of all your Todo notes. If there are no notes in
 
 To run this Todo application locally, follow these steps:
 
-1. Clone this repository to your local machine.
-   
+
 
 ```bash
 
