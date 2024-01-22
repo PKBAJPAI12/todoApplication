@@ -2,6 +2,10 @@
 
 This project is a simple Todo application built using ReactJS with functional components. It allows users to add, update, and delete notes in a straightforward and intuitive interface.
 
+## Live Hosted Url
+
+https://todoapplicationproject.netlify.app/
+
 ## Features
 
 ### 1. Add Notes
